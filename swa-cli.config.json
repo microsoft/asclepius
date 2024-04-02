@@ -2,8 +2,11 @@
   "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
   "configurations": {
     "asclepius": {
-      "appLocation": "src\\Mercy.LabSummarization.Web",
-      "outputLocation": "bin\\wwwroot",
+      "appLocation": "src/Mercy.LabSummarization.Web",
+      "apiLocation": "src/Mercy.LabSummarization.Api",
+      "outputLocation": "bin/wwwroot",
+      "apiLanguage": "python",
+      "apiVersion": "3.8",
       "appBuildCommand": "dotnet publish -c Release -o bin",
       "run": "dotnet watch run",
       "appDevserverUrl": "http://localhost:5122"
