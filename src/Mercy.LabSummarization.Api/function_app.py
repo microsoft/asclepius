@@ -3,7 +3,7 @@ import datetime
 import json
 import logging
 import pandas as pd
-from semantic_kernel import SemanticKernel
+from . import helpers
 
 app = func.FunctionApp()
 
@@ -53,4 +53,3 @@ def patient_list(req: func.HttpRequest) -> func.HttpResponse:
     # return patients as json
     return func.HttpResponse(json.dumps(patients), mimetype="application/json")
 
-kernel = helpers.KernelFactory.create_kernel()
