@@ -13,7 +13,7 @@ namespace Mercy.LabSummarization.Web.Models;
 public class LabOrderResults
 {
     [JsonPropertyName("PAT_ID")]
-    public int PatientId { get; set; }
+    public string PatientId { get; set; }
     
     [JsonPropertyName("ORDER_PROC_ID")]
     public int OrderProcedureId { get; set; }
@@ -38,36 +38,21 @@ public class LabOrderResults
     
     [JsonPropertyName("PROC_CODE")]
     public string ProcedureCode { get; set; }
-    
-    [JsonPropertyName("PROC_CAT_ID")]
-    public int ProcedureCategoryId { get; set; }
-    
+        
     [JsonPropertyName("PROC_CAT_NAME")]
     public string ProcedureCategoryName { get; set; }
-    
-    [JsonPropertyName("CONTACT_TYPE_C")]
-    public string ContactTypeC { get; set; }
     
     [JsonPropertyName("CONTACT_TYPE")]
     public string ContactType { get; set; }
     
     [JsonPropertyName("ABNORMAL_YN")]
     public string AbnormalYn { get; set; }
-    
-    [JsonPropertyName("ORDER_STATUS_C")]
-    public string OrderStatusC { get; set; }
-    
+        
     [JsonPropertyName("ORDER_STATUS")]
     public string OrderStatus { get; set; }
     
-    [JsonPropertyName("LAB_STATUS_C")]
-    public string LabStatusC { get; set; }
-    
     [JsonPropertyName("LAB_STATUS")]
     public string LabStatus { get; set; }
-    
-    [JsonPropertyName("ORDER_TYPE_C")]
-    public string OrderTypeC { get; set; }
     
     [JsonPropertyName("ORDER_TYPE")]
     public string OrderType { get; set; }
@@ -87,14 +72,8 @@ public class LabOrderResults
     [JsonPropertyName("RESULT_TIME")]
     public DateTime ResultTime { get; set; }
 
-    [JsonPropertyName("RESULT_LAB_ID")]
-    public int ResultLabId { get; set; }
-
     [JsonPropertyName("RESULT_LAB_NAME")]
     public string ResultLabName { get; set; }
-
-    [JsonPropertyName("SPECIMEN_TYPE_C")]
-    public string SpecimenTypeC { get; set; }
 
     [JsonPropertyName("SPECIMEN_TYPE")]
     public string SpecimenType { get; set; }
