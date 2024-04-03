@@ -1,20 +1,47 @@
 ﻿@page "/"
+@using Mercy.LabSummarization.Web.Models
 @inject HttpClient Http
 
 <PageTitle>Home</PageTitle>
 
-<h1>@message</h1>
+<h1>Patient List</h1>
 
-Welcome to your new app.
+@if (patientList.Count() == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>PatientId</th>
+                <th>Name</th>
+                <th>Birth Date</th>
+                <th>Gender</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in patientList)
+            {
+                <tr>
+                    <td>@patient.PatientId</td>
+                    <td>@patient.PatientName</td>
+                    <td>@patient.BirthDate</td>
+                    <td>@patient.Gender</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
 
 @code {
-    private string name = "World";
-
-    private string message = "";
+    private Patient[] patientList = [];
 
     protected override async Task OnInitializedAsync()
     {        
-        var result = await Http.GetAsync($"/api/name?name={name}");
-        message = result.IsSuccessStatusCode ? await result.Content.ReadAsStringAsync() : "Error";
+        patientList = await Http.GetFromJsonAsync<Patient[]>($"/api/patient");
     }
 }
