@@ -1,1 +1,5 @@
 GET http://localhost:7071/api/patient
+
+###
+
+GET http://localhost:7071/api/labresult
