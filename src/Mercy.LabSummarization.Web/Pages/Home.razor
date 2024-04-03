@@ -36,12 +36,51 @@ else
 
 }
 
+@if (labOrderResults.Count() == 0)
+{
+    <p><em>Loading lab results...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Patient Id</th>
+                <th>Description</th>
+                <th>Visit Id</th>
+                <th>Order Time</th>
+                <th>Result Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var labResult in labOrderResults)
+            {
+                <tr>
+                    <td>@labResult.PatientId</td>
+                    <td>@labResult.Description</td>
+                    <td>@labResult.PatientEncounterCsnId</td>
+                    <td>@labResult.OrderTime</td>
+                    <td>@labResult.ResultTime</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
 
 @code {
     private Patient[] patientList = [];
+    private LabOrderResults[] labOrderResults = [];
 
     protected override async Task OnInitializedAsync()
     {        
-        patientList = await Http.GetFromJsonAsync<Patient[]>($"/api/patient");
+        try {
+            patientList = await Http.GetFromJsonAsync<Patient[]>($"/api/patient");
+            labOrderResults = await Http.GetFromJsonAsync<LabOrderResults[]>($"/api/labresult");
+        }
+        catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
