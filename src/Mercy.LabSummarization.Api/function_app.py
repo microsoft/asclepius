@@ -2,6 +2,7 @@ import azure.functions as func
 import datetime
 import json
 import logging
+import pandas as pd
 
 app = func.FunctionApp()
 
@@ -38,3 +39,15 @@ def weather(req: func.HttpRequest) -> func.HttpResponse:
         
     # return weather as json
     return func.HttpResponse(json.dumps(weather), mimetype="application/json")
+
+@app.route(route="patient", auth_level=func.AuthLevel.ANONYMOUS)
+def patient_list(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+
+    # load patient data patient csv file using pandas
+    patients = pd.read_csv('./data/patient_enh_no_PHI.csv').to_dict(orient='records')
+    # remove NaN values from patients
+    patients = [{k: v for k, v in patient.items() if pd.notna(v)} for patient in patients]
+        
+    # return patients as json
+    return func.HttpResponse(json.dumps(patients), mimetype="application/json")
