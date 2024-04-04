@@ -2,4 +2,12 @@ GET http://localhost:7071/api/patient
 
 ###
 
-GET http://localhost:7071/api/labresult
+GET http://localhost:7071/api/laborder
+
+###
+
+GET http://localhost:7071/api/labresult/279149741
+
+###
+
+GET https://mercy-demo-5hz73yrzvblkm-function-app.azurewebsites.net/api/laborder
