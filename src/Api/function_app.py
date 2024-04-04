@@ -3,16 +3,15 @@ import datetime
 import json
 import logging
 import pandas as pd
-from . import helpers
 
 app = func.FunctionApp()
-
 
 
 @app.route(route="patient/{patient_id:alpha?}", auth_level=func.AuthLevel.ANONYMOUS)
 def patient_list(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
+    patient_id = req.route_params.get('patient_id')
     # load patient data patient csv file using pandas
     patients = pd.read_csv('./data/patient_enh_no_PHI.csv').to_dict(orient='records')
     # remove NaN values from patients
