@@ -7,6 +7,15 @@
       },
       "location": {
         "value": "${AZURE_LOCATION}"
+      },
+      "principalId": {
+        "value": "${AZURE_PRINCIPAL_ID}"
+      },
+      "aoaiEndpointUrl": {
+        "value": "${AZURE_AOAI_ENDPOINT_URL}"
+      },
+      "aoaiApiKey": {
+        "value": "${AZURE_AOAI_API_KEY}"
       }
     }
   }

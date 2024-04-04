@@ -8,6 +8,10 @@ param appServicePlanId string
 param keyVaultName string = ''
 param managedIdentity bool = !empty(keyVaultName)
 
+param apimSubscriptionKeySecretName string = 'APIM-SUBSCRIPTION-KEY'
+param openAIEndpoint string
+param openAIDeploymentName string = 'gpt-35-turbo-16k'
+
 // Runtime Properties
 @allowed([
   'dotnet', 'dotnetcore', 'dotnet-isolated', 'node', 'python', 'java', 'powershell', 'custom'
@@ -66,6 +70,9 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
       {
         SCM_DO_BUILD_DURING_DEPLOYMENT: string(scmDoBuildDuringDeployment)
         ENABLE_ORYX_BUILD: string(enableOryxBuild)
+        AZURE_OPENAI_DEPLOYMENT_NAME: string(openAIDeploymentName)
+        AZURE_OPENAI_API_KEY: '@Microsoft.KeyVault(VaultName=${keyVaultName};SecretName=${apimSubscriptionKeySecretName})'
+        AZURE_OPENAI_ENDPOINT: string(openAIEndpoint)
       },
       !empty(applicationInsightsName) ? { APPLICATIONINSIGHTS_CONNECTION_STRING: applicationInsights.properties.ConnectionString } : {},
       !empty(keyVaultName) ? { AZURE_KEY_VAULT_ENDPOINT: keyVault.properties.vaultUri } : {})

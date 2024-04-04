@@ -32,6 +32,5 @@
         "ms-python.python"
       ]
     }
-  },
-  "postCreateCommand": "npm install -g @azure/static-web-apps-cli"
+  }
 }
