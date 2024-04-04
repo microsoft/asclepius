@@ -9,6 +9,13 @@ param name string
 @description('Primary location for all resources')
 param location string
 
+@description('Id of the user or app to assign application roles')
+param principalId string = ''
+
+param aoaiEndpointUrl string
+@secure()
+param aoaiApiKey string
+
 var resourceToken = toLower(uniqueString(subscription().id, name, location))
 var tags = { 'azd-env-name': name }
 
@@ -72,5 +79,68 @@ module functionApp 'core/host/functions.bicep' = {
     runtimeName: 'python'
     runtimeVersion: '3.11'
     storageAccountName: storageAccount.outputs.name
+    keyVaultName: keyVault.outputs.name
+    openAIEndpoint: aoaiEndpointUrl
+  }
+}
+
+module webKeyVaultAccess './core/security/keyvault-access.bicep' = {
+  name: 'web-keyvault-access'
+  scope: resourceGroup
+  params: {
+    keyVaultName: keyVault.name
+    principalId: functionApp.outputs.identityPrincipalId
+  }
+}
+
+module keyVault './core/security/keyvault.bicep' = {
+  name: 'keyvault'
+  scope: resourceGroup
+  params: {
+    name: '${take(replace(prefix, '-', ''), 17)}-vault'
+    location: location
+    tags: tags
+    principalId: principalId
+  }
+}
+
+module apim 'core/gateway/apim.bicep' = {
+  name: 'apim'
+  scope: resourceGroup
+  params: {
+    name: '${prefix}-apim'
+    location: location
+    tags: tags
+    applicationInsightsName: monitoring.outputs.applicationInsightsName
+    keyVaultName: keyVault.outputs.name
+  }
+}
+
+module apimapi './core/gateway/openai-apim-api.bicep' = {
+  name: 'apim-api'
+  scope: resourceGroup
+  params: {
+    apiManagementServiceName: apim.outputs.apimServiceName
+    openAIEndpoint: aoaiEndpointUrl
+  }
+}
+
+module aoaiApiKeySecret 'core/security/keyvault-secret.bicep' = {
+  name: 'aoaiApiKeySecret'
+  scope: resourceGroup
+  params: {
+    keyVaultName: keyVault.outputs.name
+    name: 'AZURE-OPENAI-API-KEY'
+    secretValue: aoaiApiKey
+  }
+}
+
+module aoaiEndpointUrlSecret 'core/security/keyvault-secret.bicep' = {
+  name: 'aoaiEndpointUrlSecret'
+  scope: resourceGroup
+  params: {
+    keyVaultName: keyVault.outputs.name
+    name: 'AZURE-OPENAI-ENDPOINT-URL'
+    secretValue: aoaiEndpointUrl
   }
 }
