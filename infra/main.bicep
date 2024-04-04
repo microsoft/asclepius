@@ -84,11 +84,11 @@ module functionApp 'core/host/functions.bicep' = {
   }
 }
 
-module webKeyVaultAccess './core/security/keyvault-access.bicep' = {
-  name: 'web-keyvault-access'
+module keyVaultAccess 'core/security/keyvault-access.bicep' = {
+  name: 'keyVaultApimAccess'
   scope: resourceGroup
   params: {
-    keyVaultName: keyVault.name
+    keyVaultName: keyVault.outputs.name
     principalId: functionApp.outputs.identityPrincipalId
   }
 }
