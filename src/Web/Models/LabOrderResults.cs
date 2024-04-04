@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Mercy.LabSummarization.Web.Models;
+namespace Web.Models;
 
 // create a lab result model class with the following properties
 // PAT_ID,ORDER_PROC_ID,PAT_ENC_CSN_ID,ORDER_INST,REMARKS_HNO_ID,

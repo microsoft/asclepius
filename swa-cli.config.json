@@ -2,8 +2,8 @@
   "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
   "configurations": {
     "asclepius": {
-      "appLocation": "src/Mercy.LabSummarization.Web",
-      "apiLocation": "src/Mercy.LabSummarization.Api",
+      "appLocation": "src/Web",
+      "apiLocation": "src/Api",
       "outputLocation": "bin/wwwroot",
       "apiLanguage": "python",
       "apiVersion": "3.8",

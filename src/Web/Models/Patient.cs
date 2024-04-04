@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Mercy.LabSummarization.Web.Models;
+namespace Web.Models;
 
 // Create patient model class with following fields
 // PAT_ID,PAT_MRN_ID,PAT_NAME,PAT_FIRST_NAME,PAT_LAST_NAME,HOME_PHONE,BIRTH_DATE,
