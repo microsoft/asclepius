@@ -4,6 +4,8 @@ import json
 import logging
 import pandas as pd
 
+from .helpers import KernelFactory
+
 app = func.FunctionApp()
 
 
