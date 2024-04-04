@@ -3,3 +3,7 @@ GET http://localhost:7071/api/patient
 ###
 
 GET http://localhost:7071/api/labresult
+
+###
+
+GET https://mercy-demo-5hz73yrzvblkm-function-app.azurewebsites.net/api/labresult
