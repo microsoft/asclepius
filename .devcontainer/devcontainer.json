@@ -4,6 +4,7 @@
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "forwardPorts": [
+    1234,
     7071,
     10000,
     10001,

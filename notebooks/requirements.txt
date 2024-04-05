@@ -1,0 +1,2 @@
+pandas
+semantic-kernel==0.9.5b1
