@@ -15,9 +15,12 @@ class KernelFactory:
     def create_kernel() -> sk.Kernel:
         kernel = sk.Kernel()
 
-        deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
-        api_key = os.getenv("AZURE_OPENAI_API_KEY")
-        endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+#        deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
+#        api_key = os.getenv("AZURE_OPENAI_API_KEY")
+#        endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+
+        deployment, api_key, endpoint = sk.azure_openai_settings_from_dot_env()
+
         script_directory = os.path.dirname(__file__)
         plugins_directory = os.path.join(script_directory, "plugins")
 
