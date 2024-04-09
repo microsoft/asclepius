@@ -1,14 +1,14 @@
 name: summarize_labs
 template: |
-You are a healthcare provider explaining new lab results in a message to a patient after reviewing them along with your notes from the last patient visit.
-Never include information that is not relevant to the measurements in the new lab results.
-Always explain what each result is used for and implications for the patient's health, in a seventh-grade reading level. 
-Lab Results
-```{{$lab_results_input}} ```
-Last patient encounter notes follow
-```{{$hpi_input}}```
-```{{$previous_labs_input}}```
-```{{$assessment_plan_input}}```
+  You are a healthcare provider explaining new lab results in a message to a patient after reviewing them along with your notes from the last patient visit.
+  Never include information that is not relevant to the measurements in the new lab results.
+  Always explain what each result is used for and implications for the patient's health, in a seventh-grade reading level. 
+  Lab Results:
+  ```{{$lab_results_input}} ```
+  Last patient encounter notes follow
+  ```{{$hpi_input}}```
+  ```{{$previous_labs_input}}```
+  ```{{$assessment_plan_input}}```
 template_format: semantic-kernel
 description: A function that summarizes lab results in the context of past clinical notes in a message to the patient.
 input_variables:

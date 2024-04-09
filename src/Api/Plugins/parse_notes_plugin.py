@@ -5,13 +5,14 @@ class ParseNotesPlugin(KernelBaseModel):
     @kernel_function(name='GetChiefComplaint')
     def get_chief_complaint(self, input: str) -> str:
         start_index = input.find('Chief Complaint\n')
-        end_index = input.find('ROS\n')
+        end_index = input.find('\n\n\n', start_index)
+        #end_index = input.find('ROS\n')
         return input[start_index:end_index]
     
-    @kernel_function(name='GetROS')
+    @kernel_function(name='GetLabHistory')
     def get_ros(self, input: str) -> str:
-        start_index = input.find('ROS\n')
-        end_index = input.find('Past Medical History\n')
+        start_index = input.find('Lab Results\n')
+        end_index = input.find('ROS\n')
         return input[start_index:end_index]
     
     @kernel_function(name='GetAssessment')

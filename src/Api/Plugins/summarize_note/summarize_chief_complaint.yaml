@@ -1,0 +1,13 @@
+name: summarize_chief_complaint
+template: |
+  You are a healthcare provider. Provide a summary of the patient's chief complaint from the following visit notes.
+  Visit Notes: ```{{$input}}```
+  
+template_format: semantic-kernel
+description: A function that summarizes the patient's chief complaint from the visit notes.
+input_variables:
+  - name: input
+    description: the visit notes containing the patient's chief complaint.
+    is_required: true
+output_variable:
+  description: The generated lab results summary message to the patient.
