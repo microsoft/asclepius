@@ -4,7 +4,8 @@ import json
 import logging
 import pandas as pd
 
-from .helpers import KernelFactory
+#from .helpers import KernelFactory
+from Plugins.parse_notes_plugin import ParseNotesPlugin
 
 app = func.FunctionApp()
 
