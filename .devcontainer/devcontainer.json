@@ -4,6 +4,7 @@
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "forwardPorts": [
+    1234,
     7071,
     10000,
     10001,
@@ -29,7 +30,8 @@
       "extensions": [
         "ms-azuretools.vscode-azurefunctions",
         "ms-azuretools.vscode-docker",
-        "ms-python.python"
+        "ms-python.python",
+        "ms-toolsai.jupyter"
       ]
     }
   }

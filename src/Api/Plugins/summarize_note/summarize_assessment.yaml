@@ -1,0 +1,17 @@
+name: summarize_assessment
+template: |
+  You are a healthcare provider. Provide a summary, less than 200 words, of the patient's assessment and care plan from the following visit notes.
+  Visit Notes: {{$input}}
+  
+template_format: semantic-kernel
+description: A function that summarizes the patient's assessment and care plan from the visit notes.
+input_variables:
+  - name: input
+    description: The visit notes containing the assessment and care plan.
+    is_required: true
+output_variable:
+  description: The generated lab results summary message to the patient.
+execution_settings:
+  default: 
+    temperature: 0.2
+    max_tokens: 500
