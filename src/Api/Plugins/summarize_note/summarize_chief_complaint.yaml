@@ -1,6 +1,6 @@
 name: summarize_chief_complaint
 template: |
-  You are a healthcare provider. Provide a summary of the patient's chief complaint from the following visit notes.
+  You are a healthcare provider. Provide a summary, using less than 200 words, of the patient's chief complaint from the following visit notes.
   Visit Notes: ```{{$input}}```
   
 template_format: semantic-kernel
@@ -11,3 +11,7 @@ input_variables:
     is_required: true
 output_variable:
   description: The generated lab results summary message to the patient.
+execution_settings:
+  default: 
+    temperature: 0.2
+    max_tokens: 500

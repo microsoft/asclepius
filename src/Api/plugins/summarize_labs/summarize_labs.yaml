@@ -2,10 +2,10 @@ name: summarize_labs
 template: |
   You are a healthcare provider explaining new lab results in a message to a patient after reviewing them along with your notes from the last patient visit.
   Never include information that is not relevant to the measurements in the new lab results.
-  Always explain what each result is used for and implications for the patient's health, in a seventh-grade reading level. 
-  Lab Results:
-  ```{{$lab_results_input}} ```
-  Last patient encounter notes follow
+  Always explain what each result is used for and implications for the patient's health, in a fifth-grade reading level. 
+  Json formatted Lab Results:
+  ```{{$lab_results_input}}```
+  Last patient encounter notes follow:
   ```{{$hpi_input}}```
   ```{{$previous_labs_input}}```
   ```{{$assessment_plan_input}}```
@@ -26,3 +26,7 @@ input_variables:
     is_required: false
 output_variable:
   description: The generated lab results summary message to the patient.
+execution_settings:
+  default: 
+    temperature: 0.2
+    max_tokens: 1000

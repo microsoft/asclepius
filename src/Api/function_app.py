@@ -4,8 +4,7 @@ import json
 import logging
 import pandas as pd
 
-#from .helpers import KernelFactory
-from Plugins.parse_notes_plugin import ParseNotesPlugin
+import helpers as hlp
 
 app = func.FunctionApp()
 
@@ -49,3 +48,12 @@ def lab_result_list(req: func.HttpRequest) -> func.HttpResponse:
         
     # return lab results as json
     return func.HttpResponse(json.dumps(lab_results), mimetype="application/json")
+
+@app.route(route="labsummary/{lab_order_id:int}", auth_level=func.AuthLevel.ANONYMOUS)
+async def lab_summary(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Python HTTP trigger function processed a request.')
+
+    result = await hlp.get_lab_summary(req.route_params.get('lab_order_id'))
+        
+    # return lab results as json
+    return func.HttpResponse(result)
