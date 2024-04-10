@@ -61,26 +61,11 @@ async def lab_summary(req: func.HttpRequest) -> func.HttpResponse:
     
     kernel = hlp.KernelFactory.create_kernel()
     
-    note_functions = [
-        kernel.plugins["summarize_note"]["summarize_chief_complaint"], 
-        kernel.plugins["summarize_note"]["summarize_lab_history"],
-        kernel.plugins["summarize_note"]["summarize_assessment"]
-    ]
-    
-    arguments = KernelArguments(input=visit_note)
-    response = await kernel.invoke(note_functions, arguments)
-
-    sum_chief_complaint = response[0].value[0].content
-    sum_lab_history = response[1].value[0].content
-    sum_assessment = response[2].value[0].content
-
     lab_summary_function = kernel.plugins['summarize_labs']['summarize_labs']
     
     lab_summary_response = await kernel.invoke(lab_summary_function, KernelArguments(
         lab_results_input=lab_data['lab_results'], 
-        hpi_input=sum_chief_complaint, 
-        previous_labs_input=sum_lab_history, 
-        assessment_plan_input=sum_assessment)
+        visit_note_input=visit_note)
     )
     
     if lab_summary_response:

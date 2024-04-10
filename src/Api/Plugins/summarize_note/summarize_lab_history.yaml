@@ -1,7 +1,7 @@
 name: summarize_lab_history
 template: |
   You are a healthcare provider. Provide a summary, using less than 200 words, of the patient's lab results history from the following visit notes. If no lab history is present, please indicate that in the summary.
-  Visit Notes: ```{{$input}}```
+  Visit Notes: {{$input}}
   
 template_format: semantic-kernel
 description: A function that summarizes the patient's lab results history from the visit notes.

@@ -1,7 +1,7 @@
 name: summarize_chief_complaint
 template: |
   You are a healthcare provider. Provide a summary, using less than 200 words, of the patient's chief complaint from the following visit notes.
-  Visit Notes: ```{{$input}}```
+  Visit Notes: {{$input}}
   
 template_format: semantic-kernel
 description: A function that summarizes the patient's chief complaint from the visit notes.

@@ -1,7 +1,7 @@
 name: summarize_assessment
 template: |
   You are a healthcare provider. Provide a summary, less than 200 words, of the patient's assessment and care plan from the following visit notes.
-  Visit Notes: ```{{$input}}```
+  Visit Notes: {{$input}}
   
 template_format: semantic-kernel
 description: A function that summarizes the patient's assessment and care plan from the visit notes.

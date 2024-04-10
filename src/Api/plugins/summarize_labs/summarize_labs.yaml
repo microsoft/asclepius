@@ -3,27 +3,20 @@ template: |
   You are a healthcare provider explaining new lab results in a message to a patient after reviewing them along with your notes from the last patient visit.
   Never include information that is not relevant to the measurements in the new lab results.
   Always explain what each result is used for and implications for the patient's health, in a fifth-grade reading level. 
-  Json formatted Lab Results:
-  ```{{$lab_results_input}}```
+  Json formatted Lab Results: {{$lab_results_input}}
   Notes from the last patient visit:
-  ```{{$hpi_input}}```
-  ```{{$previous_labs_input}}```
-  ```{{$assessment_plan_input}}```
+  {{summarize_note.summarize_chief_complaint $visit_note_input}}
+  {{summarize_note.summarize_lab_history $visit_note_input}}
+  {{summarize_note.summarize_assessment $visit_note_input}}
 template_format: semantic-kernel
 description: A function that summarizes lab results in the context of past clinical notes in a message to the patient.
 input_variables:
   - name: lab_results_input
     description: the recent lab results to be explained to the patient.
     is_required: true
-  - name: hpi_input
-    description: patient's history of prior illness or HPI from the last encounter notes.
-    is_required: false
-  - name: previous_labs_input
-    description: previous lab results from the last encounter notes.
-    is_required: false
-  - name: assessment_plan_input
-    description: assessment and plan from last encounter notes.
-    is_required: false
+  - name: visit_note_input
+    description: the notes from the last patient visit.
+    is_required: true
 output_variable:
   description: The generated lab results summary message to the patient.
 execution_settings:
