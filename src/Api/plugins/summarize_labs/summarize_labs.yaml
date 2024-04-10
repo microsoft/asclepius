@@ -5,7 +5,7 @@ template: |
   Always explain what each result is used for and implications for the patient's health, in a fifth-grade reading level. 
   Json formatted Lab Results:
   ```{{$lab_results_input}}```
-  Last patient encounter notes follow:
+  Notes from the last patient visit:
   ```{{$hpi_input}}```
   ```{{$previous_labs_input}}```
   ```{{$assessment_plan_input}}```

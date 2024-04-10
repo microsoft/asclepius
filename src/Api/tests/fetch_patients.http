@@ -14,4 +14,70 @@ GET https://mercy-demo-5hz73yrzvblkm-function-app.azurewebsites.net/api/laborder
 
 ###
 
-GET http://localhost:7071/api/labsummary/279149741
+POST http://localhost:7071/api/labsummary
+content-type: application/json
+
+{
+    "PAT_ENC_CSN_ID": 933115670,
+    "lab_results": [
+        {
+            "PAT_ENC_CSN_ID": 933115670,
+            "ORD_ID": 279149741,
+            "CMPNT_ID": 1201956,
+            "CMPNT_NM": "HDL",
+            "RSLT_TSP": "2024-04-17T07:46:00-05:00",
+            "RSLT_VALUE_TXT": 111.0,
+            "REFER_UNIT": "mg/dL",
+            "REFER_VALUE": "> OR = 50"
+        },
+        {
+            "PAT_ENC_CSN_ID": 933115670,
+            "ORD_ID": 279149741,
+            "CMPNT_ID": 1201957,
+            "CMPNT_NM": "CHOLESTEROL",
+            "RSLT_TSP": "2024-04-17T07:46:00-05:00",
+            "RSLT_VALUE_TXT": 225.0,
+            "REFER_UNIT": "mg/dL",
+            "REFER_VALUE": "<200"
+        },
+        {
+            "PAT_ENC_CSN_ID": 933115670,
+            "ORD_ID": 279149741,
+            "CMPNT_ID": 1202382,
+            "CMPNT_NM": "TRIGLYCERIDE",
+            "RSLT_TSP": "2024-04-17T07:46:00-05:00",
+            "RSLT_VALUE_TXT": 89.0,
+            "REFER_UNIT": "mg/dL",
+            "REFER_VALUE": "<150"
+        },
+        {
+            "PAT_ENC_CSN_ID": 933115670,
+            "ORD_ID": 279149741,
+            "CMPNT_ID": 1203388,
+            "CMPNT_NM": "LDL CALCULATED",
+            "RSLT_TSP": "2024-04-17T07:46:00-05:00",
+            "RSLT_VALUE_TXT": 96.0,
+            "REFER_UNIT": "mg/dL (calc)"
+        },
+        {
+            "PAT_ENC_CSN_ID": 933115670,
+            "ORD_ID": 279149741,
+            "CMPNT_ID": 1204992,
+            "CMPNT_NM": "CHOL/HDL RATIO",
+            "RSLT_TSP": "2024-04-17T07:46:00-05:00",
+            "RSLT_VALUE_TXT": 2.0,
+            "REFER_UNIT": "(calc)",
+            "REFER_VALUE": "<5.0"
+        },
+        {
+            "PAT_ENC_CSN_ID": 933115670,
+            "ORD_ID": 279149741,
+            "CMPNT_ID": 1205670,
+            "CMPNT_NM": "TOTAL NON-HDL CHOLESTEROL (LDL+VLDL)",
+            "RSLT_TSP": "2024-04-17T07:46:00-05:00",
+            "RSLT_VALUE_TXT": 114.0,
+            "REFER_UNIT": "mg/dL (calc)",
+            "REFER_VALUE": "<130"
+        }
+    ]
+}
