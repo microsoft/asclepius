@@ -1,0 +1,105 @@
+@page "/results/{orderId:int}"
+@using Web.Models
+@inject HttpClient Http
+
+<p>Order ID: @OrderId</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Lab Results</h2>
+            @if (labResults.Count() == 0)
+            {
+                <p><em>Loading lab results...</em></p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Lab</th>
+                            <th>Result</th>
+                            <th>Reference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in labResults)
+                        {
+                            <tr>
+                                <td>@result.ComponentName</td>
+                                <td>@result.ResultValue @result.ReferenceUnit</td>
+                                <td>@result.ReferenceValue @result.ReferenceUnit</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            }
+        </div>
+        <div class="col-md-6">
+            <h2>Visit Notes</h2>
+            <div style="max-height: 350px; overflow-y: scroll">
+                <p>@visitNotes</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn btn-primary" @onclick="CreateSummary">Generate Summary</button>        
+    </div>
+    <div class="row">
+        <h2>Summary</h2>
+        <div>
+            <textarea style="width:100%" rows=15>@labSummary</textarea>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int OrderId { get; set; }
+
+    private LabResults[] labResults = [];
+    private string visitNotes = "";
+    private string labSummary = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            labResults = await Http.GetFromJsonAsync<LabResults[]>($"api/labresult/{OrderId}");
+            if (labResults.Count() != 0)
+            {
+                var visitId = labResults[0].PatientEncounterCSNId;
+                var result = await Http.GetFromJsonAsync<VisitNote>($"api/visitnote/{visitId}");
+                visitNotes = result.NoteText;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    // create button click handler
+    private async Task CreateSummary()
+    {
+        labSummary = "Generating summary using Azure OpenAI ...";
+        var summary = new CreateSummary
+        {            
+            LabResults = labResults.ToList(),
+            VisitNote = visitNotes
+        };
+
+        var response = await Http.PostAsJsonAsync("api/labsummary", summary);
+        if (response.IsSuccessStatusCode)
+        {
+            // get string content of the response
+            labSummary = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Summary created successfully");
+        }
+        else
+        {
+            Console.WriteLine("Failed to create summary");
+        }
+    }
+}

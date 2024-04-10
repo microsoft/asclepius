@@ -4,47 +4,18 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Patient List</h1>
-
-@if (patientList.Count() == 0)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>PatientId</th>
-                <th>Name</th>
-                <th>Birth Date</th>
-                <th>Gender</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var patient in patientList)
-            {
-                <tr>
-                    <td>@patient.PatientId</td>
-                    <td>@patient.PatientName</td>
-                    <td>@patient.BirthDate</td>
-                    <td>@patient.Gender</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-}
+<h1>Lab Orders</h1>
 
 @if (labOrderResults.Count() == 0)
 {
-    <p><em>Loading lab results...</em></p>
+    <p><em>Loading lab order results...</em></p>
 }
 else
 {
     <table class="table">
         <thead>
             <tr>
+                <th>Order Id</th>
                 <th>Patient Id</th>
                 <th>Description</th>
                 <th>Visit Id</th>
@@ -53,14 +24,15 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var labResult in labOrderResults)
+            @foreach (var order in labOrderResults)
             {
                 <tr>
-                    <td>@labResult.PatientId</td>
-                    <td>@labResult.Description</td>
-                    <td>@labResult.PatientEncounterCsnId</td>
-                    <td>@labResult.OrderTime</td>
-                    <td>@labResult.ResultTime</td>
+                    <td><a href="results/@order.OrderProcedureId">@order.OrderProcedureId</a></td>
+                    <td>@order.PatientId</td>
+                    <td>@order.Description</td>
+                    <td>@order.PatientEncounterCsnId</td>
+                    <td>@order.OrderTime</td>
+                    <td>@order.ResultTime</td>
                 </tr>
             }
         </tbody>
@@ -70,14 +42,12 @@ else
 
 
 @code {
-    private Patient[] patientList = [];
     private LabOrderResults[] labOrderResults = [];
 
     protected override async Task OnInitializedAsync()
     {        
         try {
-            patientList = await Http.GetFromJsonAsync<Patient[]>($"/api/patient");
-            labOrderResults = await Http.GetFromJsonAsync<LabOrderResults[]>($"/api/labresult");
+            labOrderResults = await Http.GetFromJsonAsync<LabOrderResults[]>($"/api/laborder");
         }
         catch (Exception ex) {
             Console.WriteLine(ex.Message);
