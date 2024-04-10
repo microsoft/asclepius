@@ -50,6 +50,18 @@ def lab_result_list(req: func.HttpRequest) -> func.HttpResponse:
     # return lab results as json
     return func.HttpResponse(json.dumps(lab_results), mimetype="application/json")
 
+@app.route(route="visitnote/{visit_id:int}", auth_level=func.AuthLevel.ANONYMOUS)
+def visit_note(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Fetching last patient visit note.')
+    
+    visit_id = int(req.route_params.get('visit_id'))
+    
+    # load visit note data from csv file using pandas
+    visit_notes = pd.read_csv('./data/notes_no_PHI.csv').to_dict(orient='records')
+    visit_notes = [visit_note for visit_note in visit_notes if visit_note['PAT_ENC_CSN_ID'] == visit_id]
+    
+    return func.HttpResponse(json.dumps(visit_notes[0]), mimetype="application/json")
+
 @app.route(route="labsummary", auth_level=func.AuthLevel.ANONYMOUS, methods=['POST'])
 async def lab_summary(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Generating lab summary.')
