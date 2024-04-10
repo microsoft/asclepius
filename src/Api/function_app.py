@@ -53,7 +53,9 @@ def lab_result_list(req: func.HttpRequest) -> func.HttpResponse:
 async def lab_summary(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    result = await hlp.get_lab_summary(req.route_params.get('lab_order_id'))
+    lab_order_id = int(req.route_params.get('lab_order_id'))
+    print(lab_order_id)
+    result = await hlp.get_lab_summary(lab_order_id)
         
     # return lab results as json
     return func.HttpResponse(result)

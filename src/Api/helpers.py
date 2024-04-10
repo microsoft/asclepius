@@ -55,15 +55,14 @@ class KernelFactory:
         return self.name
     
 async def get_lab_summary(lab_order_id: int) -> str:
-    kernel = KernelFactory.create_kernel()
-    
+    kernel = KernelFactory.create_kernel()    
+    # get sk function from loaded plugins
     sk_function = kernel.plugins['summarize_labs']['summarize_labs']
     
     # load lab result data from csv file using pandas
     lab_results = pd.read_csv('./data/lab_rslt_component_no_PHI.csv')
-    lab_results = lab_results.loc[lab_results['ORD_ID'] == 279149741]
+    lab_results = lab_results.loc[lab_results['ORD_ID'] == lab_order_id]
     visit_id = lab_results['PAT_ENC_CSN_ID'][0]
-    print(visit_id)
     cols = ['CMPNT_NM', 'RSLT_VALUE_TXT', 'REFER_UNIT', 'REFER_VALUE']
     lab_results = lab_results[cols]
     
@@ -86,7 +85,6 @@ async def get_lab_summary(lab_order_id: int) -> str:
     sum_lab_history = response[1].value[0].content
     sum_assessment = response[2].value[0].content
     
-    print("Lenght of lab notes:" + str(len(lab_notes)))
     arguments = sk.KernelArguments(
         lab_results_input=lab_results.to_json(orient='records'), 
         hpi_input=sum_chief_complaint, 
