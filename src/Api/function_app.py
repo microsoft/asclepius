@@ -57,11 +57,7 @@ async def lab_summary(req: func.HttpRequest) -> func.HttpResponse:
     # get lab data json from body
     lab_data = req.get_json()
     
-    visit_id = lab_data['PAT_ENC_CSN_ID']
-    
-    lab_notes = pd.read_csv('./data/notes_no_PHI.csv')
-    lab_notes = lab_notes.loc[lab_notes['PAT_ENC_CSN_ID'] == visit_id]
-    visit_note = lab_notes['NOTE_TEXT']
+    visit_note = lab_data['visit_note']
     
     kernel = hlp.KernelFactory.create_kernel()
     
