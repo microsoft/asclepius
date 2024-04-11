@@ -1,14 +1,37 @@
-# Project
+# AI Generated Lab Results Summary Template
+This project provides an example template to illustrate the use of Azure OpenAI to generate a patient-facing summary of incoming lab results, including explanation of what the results mean and the implications on the patient's health. The intent is to simulate an integration with an EHR, intercepting the incoming lab results from the in-basket and passing those results along with the notes from the last encounter to the Azure OpenAI LLM to create an explanation to the patient - reducing cognitive load an time spent by clinicians and getting result information to patients more quickly.
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+## Solution Description
+This solution includes an API defined and deployed to an Azure Function App, developed on Python with the Semantic Kernal SDK to define and orchestration prompt function calls to Azure OpenAI. 
 
-As the maintainer of this project, please make a few updates:
+**ToDo: create app flow illustration of data inputs, prompt functions and plugin call to OpenAI**
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+## Architecture
+This template deploys an API built and hosted by an Azure Function App, with a Static Web App Blazor front end to illustrate a user selecting a lab result from an in-basket and requesting patient-facing summary from AI. 
+
+![Template Architecture](./docs/LabSum_Template_Architecture.png)
+
+This template includes the reading of sample data from a local sample data file for simplicity. This could be extended with Databricks or other mechanism to pull near-real-time data, or other integration pattern, as in the example below.
+
+![Example Integration Pattern with Databricks](./docs/LabSum_Extension_Example.png)
+
+# Deployment Instructions
+To deploy to Azure, you can follow these steps:
+
+1. Install the Azure CLI: [How to install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+
+2. Install the Azure DevOps (azd) extension for the Azure CLI. You can do this by running the following command in your terminal:
+
+    `az extension add --name azure-devops`
+
+3. Log in to your Azure account by running the following command and following the prompts:
+    `az login`
+
+4. Run the azd up command, specifying the main.bicep file and the main.parameters.json file. Here's an example:
+
+    ```az deployment group create --resource-group myResourceGroup --template-uri https://github.com/microsoft/asclepius/tree/main/infra/main.bicep --parameters @main.parameters.json```
+
+6. Follow the prompts to indicate the subscription, region and resource group to deploy to
 
 ## Contributing
 
