@@ -65,23 +65,26 @@ def visit_note(req: func.HttpRequest) -> func.HttpResponse:
 @app.route(route="labsummary", auth_level=func.AuthLevel.ANONYMOUS, methods=['POST'])
 async def lab_summary(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Generating lab summary.')
-
-    # get lab data json from body
-    lab_data = req.get_json()
-    
-    visit_note = lab_data['visit_note']
-    
-    kernel = hlp.KernelFactory.create_kernel()
-    
-    lab_summary_function = kernel.plugins['summarize_labs']['summarize_labs']
-    
-    lab_summary_response = await kernel.invoke(lab_summary_function, KernelArguments(
-        lab_results_input=lab_data['lab_results'], 
-        visit_note_input=visit_note)
-    )
-    
-    if lab_summary_response:
-        return func.HttpResponse(lab_summary_response.value[0].content)
-    else:
-        return func.HttpResponse(None)
+    try:
+        # get lab data json from body
+        lab_data = req.get_json()
+        
+        visit_note = lab_data['visit_note']
+        
+        kernel = hlp.KernelFactory.create_kernel()
+        
+        lab_summary_function = kernel.plugins['summarize_labs']['summarize_labs']
+        
+        lab_summary_response = await kernel.invoke(lab_summary_function, KernelArguments(
+            lab_results_input=lab_data['lab_results'], 
+            visit_note_input=visit_note)
+        )
+        
+        if lab_summary_response:
+            return func.HttpResponse(lab_summary_response.value[0].content)
+        else:
+            return func.HttpResponse(None)
+    except Exception as e:
+        logging.error(e)
+        return func.HttpResponse(e)
     
