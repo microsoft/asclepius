@@ -75,13 +75,17 @@ async def lab_summary(req: func.HttpRequest) -> func.HttpResponse:
         
         lab_summary_function = kernel.plugins['summarize_labs']['summarize_labs']
         
-        lab_summary_response = await kernel.invoke(lab_summary_function, KernelArguments(
+        openai_response = await kernel.invoke(lab_summary_function, KernelArguments(
             lab_results_input=lab_data['lab_results'], 
             visit_note_input=visit_note)
-        )
+        )                
         
-        if lab_summary_response:
-            return func.HttpResponse(lab_summary_response.value[0].content)
+        if openai_response:
+            summary_response = {
+                'summary': openai_response.value[0].content,
+                'total_tokens': openai_response.value[0].metadata['usage'].total_tokens
+            }
+            return func.HttpResponse(json.dumps(summary_response), mimetype="application/json")
         else:
             return func.HttpResponse(None)
     except Exception as e:
