@@ -49,8 +49,16 @@
     <div class="row">
         <h2>Summary</h2>
         <div>
-            <textarea style="width:100%" rows=15>@labSummary</textarea>
+            <textarea style="width:100%" rows=15>@summaryResponse.Summary</textarea>
         </div>
+    </div>
+    <div class="row">
+        <button type="button" class="btn btn-primary position-relative">
+            Total Tokens
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                @summaryResponse.TotalTokens
+            </span>
+        </button>
     </div>
 </div>
 
@@ -60,7 +68,8 @@
 
     private LabResults[] labResults = [];
     private string visitNotes = "";
-    private string labSummary = "";
+    private SummaryResponse summaryResponse = new SummaryResponse();
+    //private string labSummary = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -83,7 +92,7 @@
     // create button click handler
     private async Task CreateSummary()
     {
-        labSummary = "Generating summary using Azure OpenAI ...";
+        summaryResponse.Summary = "Generating summary using Azure OpenAI ...";
         var summary = new CreateSummary
         {            
             LabResults = labResults.ToList(),
@@ -94,7 +103,7 @@
         if (response.IsSuccessStatusCode)
         {
             // get string content of the response
-            labSummary = await response.Content.ReadAsStringAsync();
+            summaryResponse = await response.Content.ReadFromJsonAsync<SummaryResponse>();
             Console.WriteLine("Summary created successfully");
         }
         else
