@@ -1,11 +1,6 @@
 # AI Generated Lab Results Summary Template
 This project provides an example template to illustrate the use of Azure OpenAI to generate a patient-facing summary of incoming lab results, including explanation of what the results mean and the implications on the patient's health. The intent is to simulate an integration with an EHR, intercepting the incoming lab results from the in-basket and passing those results along with the notes from the last encounter to the Azure OpenAI LLM to create an explanation to the patient - reducing cognitive load an time spent by clinicians and getting result information to patients more quickly.
 
-## Solution Description
-This solution includes an API defined and deployed to an Azure Function App, developed on Python with the Semantic Kernal SDK to define and orchestration prompt function calls to Azure OpenAI. 
-
-**ToDo: create app flow illustration of data inputs, prompt functions and plugin call to OpenAI**
-
 ## Architecture
 This template deploys an API built and hosted by an Azure Function App, with a Static Web App Blazor front end to illustrate a user selecting a lab result from an in-basket and requesting patient-facing summary from AI. 
 
@@ -15,23 +10,38 @@ This template includes the reading of sample data from a local sample data file 
 
 ![Example Integration Pattern with Databricks](./docs/LabSum_Extension_Example.png)
 
+## API Orchestration with Semantic Kernel
+This solution includes an API defined and deployed to an Azure Function App, developed on Python with the Semantic Kernal SDK to define and orchestration prompt function calls to Azure OpenAI. 
+
+1. Receive request on /labsummary endpoint
+    * expected payload includes lab results and encounter notes
+    * see HTTP request example: [fetch_patients.http](/src/Api/tests/fetch_patients.http)
+2. The `summarize_labs` Semantic Kernel prompt function is called, with the lab results and encounter notes as input
+    * see [summarize_labs.yaml](/src/Api/plugins/summarize_labs/summarize_labs.yaml) for prompt function definition
+3. As the `summarize_labs` prompt function requires subsections of the encounter notes, the following prompt functions are called to extract that data via the Semantic Kernal AzureChatCompletion service, before calling the service a final time with `summarize_labs` prompt
+    * [summarize_chief_complaint.yaml](/src/Api/plugins/summarize_note/summarize_chief_complaint.yaml)
+    * [summarize_lab_history.yaml](/src/Api/plugins/summarize_note/summarize_lab_history.yaml)
+    * [summarize_assessment.yaml](/src/Api/plugins/summarize_note/summarize_assessment.yaml)
+
+Reference Documentation:
+* [Semantic Kernel GitHub Repo](https://github.com/microsoft/semantic-kernel/tree/main)
+* [Getting Started with Semantic Kernel (Python)](https://github.com/microsoft/semantic-kernel/blob/main/python/README.md)
+* [Understanding the Kernel in Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/agents/kernel/?tabs=python)
+* [Adding AI Services to the Kernel](https://learn.microsoft.com/en-us/semantic-kernel/agents/kernel/adding-services?tabs=python)
+
 # Deployment Instructions
-To deploy to Azure, you can follow these steps:
+To deploy to Azure, you can follow these steps after cloning the repo into your local IDE such as VS Code. 
 
 1. Install the Azure CLI: [How to install the Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 
-2. Install the Azure DevOps (azd) extension for the Azure CLI. You can do this by running the following command in your terminal:
-
-    `az extension add --name azure-devops`
+2. Install the Azure Developer CLI (azd) extension for the Azure CLI. 
 
 3. Log in to your Azure account by running the following command and following the prompts:
-    `az login`
+    `azd auth login`
 
-4. Run the azd up command, specifying the main.bicep file and the main.parameters.json file. Here's an example:
+4. Run the azd up command, and follow the prompts to indicate the subscription, region and resource group to deploy to
 
-    ```az deployment group create --resource-group myResourceGroup --template-uri https://github.com/microsoft/asclepius/tree/main/infra/main.bicep --parameters @main.parameters.json```
-
-6. Follow the prompts to indicate the subscription, region and resource group to deploy to
+    `azd up`
 
 ## Contributing
 
