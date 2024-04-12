@@ -16,6 +16,10 @@ param aoaiEndpointUrl string
 @secure()
 param aoaiApiKey string
 
+param apiServiceName string = ''
+param webServiceName string = ''
+
+var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, name, location))
 var tags = { 'azd-env-name': name }
 
@@ -64,10 +68,10 @@ module appServicePlan './core/host/appserviceplan.bicep' = {
 }
 
 module functionApp 'core/host/functions.bicep' = {
-  name: 'function'
+  name: 'api'
   scope: resourceGroup
   params: {
-    name: '${prefix}-function-app'
+    name: !empty(apiServiceName) ? apiServiceName : '${abbrs.webSitesFunctions}api-${resourceToken}'
     location: location
     tags: union(tags, { 'azd-service-name': 'api' })
     alwaysOn: false
@@ -124,6 +128,17 @@ module apimapi './core/gateway/openai-apim-api.bicep' = {
     openAIEndpoint: aoaiEndpointUrl
   }
 }
+
+module web 'core/host/staticwebapp.bicep' = {
+  name: 'web'
+  scope: resourceGroup
+  params: {
+    name: !empty(webServiceName) ? webServiceName : '${abbrs.webStaticSites}web-${resourceToken}'
+    location: location
+    tags: tags
+  }
+}
+
 
 module aoaiApiKeySecret 'core/security/keyvault-secret.bicep' = {
   name: 'aoaiApiKeySecret'
