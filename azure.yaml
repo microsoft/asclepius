@@ -3,7 +3,17 @@
 name: asclepius
 metadata:
   template: azd-init@1.7.0
+workflows:
+  up:
+    steps:
+      - azd: provision
+      - azd: deploy --all
 services:
+  web:
+    project: src/Web
+    dist: bin/wwwroot
+    language: dotnet
+    host: staticwebapp
   api:
     project: src/Api
     language: py
